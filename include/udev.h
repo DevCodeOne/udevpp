@@ -5,9 +5,9 @@
 #include <libudev.h>
 
 #include "udev_device.h"
-#include "udev_monitor.h"
 
 namespace udevpp {
+
     class UDev final {
        public:
         UDev();
@@ -16,13 +16,16 @@ namespace udevpp {
         ~UDev();
 
         UDev &operator=(const UDev &udev) = delete;
-        UDev &operator=(UDev &&udev) = delete;
+        UDev &operator=(UDev &&udev);
         explicit operator bool() const;
 
-        std::vector<UDevDevice> enumerate_device() const;
-        UDevMonitor create_monitor() const;
-
+        std::vector<UDevDevice> enumerate_devices() const;
        private:
+        udev *udev_handle();
+
         udev *m_udev_handle = nullptr;
+
+        friend class UDevMonitor;
     };
+
 }  // namespace udevpp

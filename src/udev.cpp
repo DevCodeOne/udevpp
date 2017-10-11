@@ -10,4 +10,8 @@ namespace udevpp {
 
     UDev::operator bool() const { return m_udev_handle; }
 
+    udev *UDev::udev_handle() {
+        return m_udev_handle;
+    }
+
 }  // namespace udevpp

@@ -14,7 +14,7 @@ include_directories(${UDEV_INCLUDE_DIR})
 add_library(udevpp ${SOURCES})
 add_executable(example_udevpp examples/example_udevpp.cpp)
 
-target_link_libraries(udevpp ${CONFUSE_LIBRARIES})
+target_link_libraries(udevpp ${UDEV_LIBRARIES})
 target_link_libraries(example_udevpp udevpp)
 
 # enable_testing()
