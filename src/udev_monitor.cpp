@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "udev_monitor.h"
 
 namespace udevpp {
