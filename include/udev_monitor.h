@@ -18,9 +18,10 @@ namespace udevpp {
            UDevMonitor(UDevMonitor &&other);
            ~UDevMonitor();
 
-           UDevMonitor &operator=(const UDevMonitor &other);
-           UDevMonitor &operator=(UDevMonitor &&other) = delete;
+           UDevMonitor &operator=(const UDevMonitor &other) = delete;
+           UDevMonitor &operator=(UDevMonitor &&other);
            explicit operator bool() const;
+           void swap(UDevMonitor &other) noexcept;
 
            std::optional<UDevDevice> wait_for_device() const;
        private:
@@ -33,4 +34,6 @@ namespace udevpp {
            bool m_file_descriptor_valid = false;
            bool m_is_receiving = false;
     };
+
+    void swap(UDevDevice &lhs, UDevDevice &rhs) noexcept;
 }  // namespace udevpp

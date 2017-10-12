@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "udev_monitor.h"
 
 namespace udevpp {
@@ -24,8 +26,24 @@ namespace udevpp {
         }
     }
 
+    UDevMonitor &UDevMonitor::operator=(UDevMonitor &&other) {
+        swap(other);
+
+        return *this;
+    }
+
     UDevMonitor::operator bool() const {
         return m_udev_handle && m_udev_monitor_handle && m_file_descriptor_valid && m_is_receiving;
+    }
+
+    void UDevMonitor::swap(UDevMonitor &other) noexcept {
+        using std::swap;
+
+        swap(m_udev_handle, other.m_udev_handle);
+        swap(m_udev_monitor_handle, other.m_udev_monitor_handle);
+        swap(m_udev_monitor_file_descriptor, other.m_udev_monitor_file_descriptor);
+        swap(m_file_descriptor_valid, other.m_file_descriptor_valid);
+        swap(m_is_receiving, other.m_is_receiving);
     }
 
     bool UDevMonitor::setup_file_descriptor() {
@@ -59,7 +77,7 @@ namespace udevpp {
 
     bool UDevMonitor::enable_receiving() {
         if (udev_monitor_enable_receiving(m_udev_monitor_handle) < 0) {
-            // error coulnd't enable receiving
+            // error couldn't enable receiving
             return false;
         }
 
@@ -72,6 +90,10 @@ namespace udevpp {
         }
 
         return UDevDevice(m_udev_handle, udev_monitor_receive_device(m_udev_monitor_handle));
+    }
+
+    void swap(UDevMonitor &lhs, UDevMonitor &rhs) noexcept {
+        lhs.swap(rhs);
     }
 
 }  // namespace udevpp

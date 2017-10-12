@@ -14,6 +14,9 @@ int main() {
 
     if (device) {
         std::cout << "Valid device" << std::endl;
+        std::cout << device->get_action() << std::endl;
+        std::cout << device->get_device_type() << std::endl;
+        std::cout << device->get_device_path() << std::endl;
     } else {
         std::cout << "Invalid device" << std::endl;
     }

@@ -20,6 +20,7 @@ namespace udevpp {
         std::string_view get_action() const;
         std::string_view get_device_path() const;
         std::string_view get_device_type() const;
+
        private:
         UDevDevice(udev *udev_handle, udev_device *device_handle);
 

@@ -19,7 +19,7 @@ namespace udevpp {
         UDev &operator=(UDev &&udev);
         explicit operator bool() const;
 
-        std::vector<UDevDevice> enumerate_devices() const;
+        // std::vector<UDevDevice> enumerate_devices() const;
        private:
         udev *udev_handle();
 
