@@ -89,11 +89,14 @@ namespace udevpp {
             return std::optional<UDevDevice>{};
         }
 
-        return UDevDevice(m_udev_handle, udev_monitor_receive_device(m_udev_monitor_handle));
+        auto device_handle = udev_monitor_receive_device(m_udev_monitor_handle);
+        UDevDevice device(m_udev_handle, device_handle);
+
+        udev_device_unref(device_handle);
+
+        return std::move(device);
     }
 
-    void swap(UDevMonitor &lhs, UDevMonitor &rhs) noexcept {
-        lhs.swap(rhs);
-    }
+    void swap(UDevMonitor &lhs, UDevMonitor &rhs) noexcept { lhs.swap(rhs); }
 
 }  // namespace udevpp
