@@ -13,7 +13,9 @@ namespace udevpp {
 
     class UDevMonitor final {
        public:
-           UDevMonitor(UDev &udev);
+           enum struct Mode : bool {BLOCKING, NONBLOCKING};
+
+           UDevMonitor(UDev &udev, Mode mode = Mode::BLOCKING);
            UDevMonitor(const UDevMonitor &other) = delete;
            UDevMonitor(UDevMonitor &&other);
            ~UDevMonitor();
@@ -23,9 +25,9 @@ namespace udevpp {
            explicit operator bool() const;
            void swap(UDevMonitor &other) noexcept;
 
-           std::optional<UDevDevice> wait_for_device() const;
+           std::optional<UDevDevice> receive_device() const;
        private:
-           bool setup_file_descriptor();
+           bool setup_file_descriptor(Mode mode);
            bool enable_receiving();
 
            udev *m_udev_handle = nullptr;
