@@ -37,6 +37,24 @@ namespace udevpp {
 
     std::string_view UDevDevice::get_device_type() const { return udev_device_get_devtype(m_udev_device_handle); }
 
+    std::map<std::string, std::string> UDevDevice::get_device_attributes() const {
+        udev_list_entry *entry = udev_device_get_properties_list_entry(m_udev_device_handle);
+        std::map<std::string, std::string> result;
+
+        while (entry != nullptr) {
+            const char *attribute_name = udev_list_entry_get_name(entry);
+            const char *attribute_value = udev_list_entry_get_value(entry);
+
+            if (attribute_name && attribute_value) {
+                result[attribute_name] = attribute_value;
+            }
+
+            entry = udev_list_entry_get_next(entry);
+        }
+
+        return result;
+    }
+
     void UDevDevice::swap(UDevDevice &other) noexcept {
         using std::swap;
 

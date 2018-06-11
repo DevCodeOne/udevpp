@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <string_view>
 
 #include <libudev.h>
@@ -20,6 +21,7 @@ namespace udevpp {
         std::string_view get_action() const;
         std::string_view get_device_path() const;
         std::string_view get_device_type() const;
+        std::map<std::string, std::string> get_device_attributes() const;
 
        private:
         UDevDevice(udev *udev_handle, udev_device *device_handle);
